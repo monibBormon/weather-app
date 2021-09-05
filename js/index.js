@@ -2,13 +2,14 @@ const emptyInput = document.getElementById('empty-input')
 const searchButton = () => {
     const searchInput = document.getElementById('search-city');
     const cityName = searchInput.value;
+    emptyInput.textContent = ''
+    if (cityName === '') {
+        emptyInput.innerHTML = `
+            <h4 class="text-start text-danger mt-2">Please enter a city name to search...</h4>
+        `;
+    }
     //clear search
     searchInput.value = '';
-    if (cityName === '') {
-        emptyInput.innerHTML = `<h5 class="text-danger text-start mt-2">type a city name for weather !</h5>`;
-
-    }
-    emptyInput.innerHTML = '';
     loadSearch(cityName)
 }
 
@@ -24,6 +25,11 @@ const loadSearch = async city => {
 // display weather
 const displayWeather = temparature => {
     console.log(temparature);
+    if (temparature.message === 'city not found') {
+        emptyInput.innerHTML = `
+            <h4 class="text-start text-danger mt-2">No results found !</h4>
+        `;
+    }
     const container = document.getElementById('container');
     container.textContent = '';
     const localDate = convertUnixTimeToLocal(temparature.dt);
@@ -36,7 +42,7 @@ const displayWeather = temparature => {
         <img src="http://openweathermap.org/img/wn/${temparature.weather[0].icon}@2x.png" alt="">
         <h5 class="fs-1">${temparature.main.temp} &deg;C</h5>
         <h5>${temparature.weather[0].main}</h5>
-        <h5><span class="me-3">Sunrise: ${sunriseTime.time12h}</span> & <span class="ms-3">Sunset: ${sunsetTime.time12h}</span></h5>
+        <h5><span class="me-3">Sunrise: ${sunriseTime.time12h}</span> & <span class="ms-3">Sun: ${sunsetTime.time12h}</span></h5>
     `;
     container.appendChild(div)
 }
