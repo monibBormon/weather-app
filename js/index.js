@@ -1,4 +1,10 @@
 const emptyInput = document.getElementById('empty-input')
+const searchBtn = document.getElementById('search-button')
+document.getElementById('search-city').addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+        searchBtn.click()
+    }
+})
 const searchButton = () => {
     const searchInput = document.getElementById('search-city');
     const cityName = searchInput.value;
